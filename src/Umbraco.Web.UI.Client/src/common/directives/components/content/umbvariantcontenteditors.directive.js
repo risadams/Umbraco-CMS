@@ -10,7 +10,8 @@
             page: "<",
             content: "<", // TODO: Not sure if this should be = since we are changing the 'active' property of a variant
             culture: "<",
-            onSelectApp: "&?"
+            onSelectApp: "&?",
+            onBack: "&?"
         },
         controllerAs: 'vm',
         controller: umbVariantContentEditorsController

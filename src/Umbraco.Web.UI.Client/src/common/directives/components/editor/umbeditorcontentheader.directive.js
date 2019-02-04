@@ -1,7 +1,7 @@
 (function () {
     'use strict';
 
-    function EditorContentHeader($location, $routeParams) {
+    function EditorContentHeader() {
 
         function link(scope, el, attr, ctrl) {
 
@@ -15,7 +15,7 @@
             scope.vm = {};
             scope.vm.dropdownOpen = false;
             scope.vm.currentVariant = "";
-
+            
             function onInit() {
                 setCurrentVariant();
             }
@@ -28,8 +28,11 @@
                 });
             }
 
-            scope.goBack = function () {
-                $location.path('/' + $routeParams.section + '/' + $routeParams.tree + '/' + $routeParams.method + '/' + scope.menu.currentNode.parentId);
+            scope.goBack = function() {
+                
+                if (scope.onBack) {
+                    scope.onBack();
+                }
             };
 
             scope.selectVariant = function (event, variant) {
@@ -105,6 +108,7 @@
                 hideChangeVariant: "<?",
                 navigation: "=",
                 onSelectNavigationItem: "&?",
+                onBack: "&?",
                 showBackButton: "<?",
                 splitViewOpen: "=?",
                 onOpenInSplitView: "&?",

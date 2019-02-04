@@ -4,7 +4,7 @@
     function ContentEditController($rootScope, $scope, $routeParams, $q, $window,
         appState, contentResource, entityResource, navigationService, notificationsService,
         serverValidationManager, contentEditingHelper, treeService, formHelper, umbRequestHelper,
-        editorState, $http, eventsService, relationResource, overlayService) {
+        editorState, $http, eventsService, relationResource, overlayService, $location) {
 
         var evts = [];
         var infiniteMode = $scope.infiniteModel && $scope.infiniteModel.infiniteMode;
@@ -22,7 +22,7 @@
         $scope.page.isNew = $scope.isNew ? true : false;
         $scope.page.buttonGroupState = "init";
         $scope.page.hideActionsMenu = infiniteMode ? true : false;
-        $scope.page.hideChangeVariant = infiniteMode ? true : false;
+        $scope.page.hideChangeVariant = false;//infiniteMode ? true : false;
         $scope.allowOpen = true;
         $scope.app = null;
 
@@ -213,7 +213,7 @@
             $scope.page.showPreviewButton = true;
 
         }
-
+        /*
         // create infinite editing buttons
         function createInfiniteModeButtons(content) {
 
@@ -230,7 +230,7 @@
             }
 
         }
-
+        */
         /** Syncs the content item to it's tree node - this occurs on first load and after saving */
         function syncTreeNode(content, path, initialLoad) {
 
@@ -871,10 +871,23 @@
             
             $scope.app = app;
             
-            if (infiniteMode) {
+            /*if (infiniteMode) {
                 createInfiniteModeButtons($scope.content);
-            } else {
+            } else {*/
                 createButtons($scope.content);
+            //}
+        };
+        
+        /**
+         * Call back when user click the back-icon
+         * @param {any} item
+         */
+        $scope.onBack = function() {
+            if ($scope.infiniteModel && $scope.infiniteModel.close) {
+                $scope.infiniteModel.close($scope.infiniteModel);
+            } else {
+                // navigate backwards if content has a parent.
+                $location.path('/' + $routeParams.section + '/' + $routeParams.tree + '/' + $routeParams.method + '/' + $scope.content.parentId);
             }
         };
 
